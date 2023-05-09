@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -560,6 +562,12 @@ public class Server extends JFrame implements ActionListener, Runnable {
     public void run() {
         // Runs constantly
         while (true) {
+            try {
+                // Sleeps thread for 10 seconds to repaint the map
+                Thread.sleep(10000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             // Repaints mapPanel
             mapPanel.repaint();
