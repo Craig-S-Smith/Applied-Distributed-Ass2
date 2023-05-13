@@ -24,6 +24,7 @@ public class NEMAService {
     @Path("drone")
     @Produces(MediaType.APPLICATION_JSON)
     public String getDrones() {
+        // Gets registered drones
         String result = "";
         Connection connection = null;
         Statement statement = null;
@@ -289,5 +290,42 @@ public class NEMAService {
         // Returns result
         return result;
         
+    }
+    
+    @POST
+    @Path("add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addFireTruck(String fireTruck) {
+        try {
+            // Add fire truck to db
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            
+            // Parse input by comma delimiters
+            String[] values = fireTruck.split(",");
+            
+            // Get values
+            int id = Integer.parseInt(values[0].trim());
+            String name = values[1].trim();
+            int designatedFireId = Integer.parseInt(values[0].trim());
+            
+            // Establish database connection
+            connection = DriverManager.getConnection(databaseURL, databaseUser, databasePass);
+
+            // Prepare SQL statement
+            String sql = "INSERT INTO firetruck (id, name, designatedFireId) VALUES (?, ?, ?)";
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, name);
+            preparedStatement.setInt(3, designatedFireId);
+            
+            // Execute the prepared statement
+            preparedStatement.executeUpdate();
+            
+            // Close Resources
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
