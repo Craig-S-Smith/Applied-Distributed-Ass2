@@ -107,7 +107,7 @@ public class NEMAService {
                 int y_pos = resultSet.getInt("ypos");
                 
                 // Checks if fire is active, if so, adds it to result
-                if (isActive) {
+                if (!isActive) {
                     activeFires = true;
                     // Adds to result string
                     result += "ID: " + id + ", Active: true" + ", Intensity: " + intensity + ", X Position: " + x_pos + ", Y Position: " + y_pos + "\n";
