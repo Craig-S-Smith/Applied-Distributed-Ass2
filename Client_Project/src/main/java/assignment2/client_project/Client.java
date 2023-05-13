@@ -139,22 +139,22 @@ public class Client extends JFrame implements ActionListener {
     }
     
     public void getDrones() {
-        outputTextArea.setText("Drone Details:");
+        outputTextArea.setText("Drone Details:\n");
         getData("drones");
     }
     
     public void getFires() {
-        outputTextArea.setText("Current Fire Details:");
+        outputTextArea.setText("Current Fire Details:\n");
         getData("fires");
     }
     
     public void getOldFires() {
-        outputTextArea.setText("Historical Fire Details:");
+        outputTextArea.setText("Historical Fire Details:\n");
         getData("oldfires");
     }
     
     public void getTrucks() {
-        outputTextArea.setText("Fire Truck Details:");
+        outputTextArea.setText("Fire Truck Details:\n");
         getData("firetrucks");
     }
     
