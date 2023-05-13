@@ -198,6 +198,22 @@ public class Client extends JFrame implements ActionListener {
             }
         }
         
+        // Sending data to web service to be added to database
+        try {
+            // URL of web server
+            String url = "http://localhost:8080/webserver/service/add";
+            
+            // Open URL connection
+            URL apiUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         JOptionPane.showMessageDialog(null, "Fire Truck Added\nID: " + intId + "\nName: " + enteredName + "\nFire ID: " + intFireId);
     }
     
