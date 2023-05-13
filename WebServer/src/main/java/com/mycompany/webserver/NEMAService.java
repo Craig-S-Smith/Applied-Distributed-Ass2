@@ -33,9 +33,42 @@ public class NEMAService {
             // Connect to database
             connection = DriverManager.getConnection(DatabaseURL, DatabaseUser, DatabasePass);
             
+            // Preparing statement
+            statement = connection.createStatement();
+            
+            // Execute Query
+            String sql = "SELECT * FROM drone";
+            resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int x_pos = resultSet.getInt("xpos");
+                int y_pos = resultSet.getInt("ypos");
+                
+                result += "ID: " + id + ", Name: " + name + ", X Position: " + x_pos + ", Y Position: " + y_pos + "\n";
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            // Close all the resources
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        
+        // Returns result
+        return result;
         
     }
 }
