@@ -11,6 +11,7 @@ import java.io.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -197,14 +198,16 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-    public static void main(String[] args) {
         // Initialise connection
-        Connection connection;
+        private Connection connection;
         
         // Creates string for connection
-        String URL = "jdbc:mysql://localhost:3306/ibdms_server";
-        String USERNAME = "user";
-        String PASSWORD = "pass";
+        private static String URL = "jdbc:mysql://localhost:3306/ibdms_server";
+        private static String USERNAME = "user";
+        private static String PASSWORD = "pass";
+    
+    public static void main(String[] args) {
+        
         
         // Tries to connect to  the database 
         try
@@ -326,7 +329,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
         */
         
+        // Sql for inserting data into table
+        String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos)";
         
+        PreparedStatement insertStmt = connection.prepareStatement(sql);
         
     }
     
