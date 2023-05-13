@@ -8,6 +8,12 @@ package assignment2.client_project;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 /**
  *
@@ -132,21 +138,41 @@ public class Client extends JFrame implements ActionListener {
     
     public void getDrones() {
         outputTextArea.setText("Drone Details:");
+        getData("drones");
     }
     
     public void getFires() {
         outputTextArea.setText("Current Fire Details:");
+        getData("fires");
     }
     
     public void getOldFires() {
         outputTextArea.setText("Historical Fire Details:");
+        getData("oldfires");
     }
     
     public void getTrucks() {
         outputTextArea.setText("Fire Truck Details:");
+        getData("firetrucks");
     }
     
     public void addFireTruck() {
         
+    }
+    
+    private void getData(String input) {
+        try {
+            // URL of web server
+            String url = "http://localhost:8080/webserver/service/" + input;
+            
+            // Open URL connection
+            URL apiUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
