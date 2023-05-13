@@ -6,29 +6,42 @@
 package assignment2.client_project;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 /**
  *
  * @author diamo
  */
-public class Client extends JFrame {
+public class Client extends JFrame implements ActionListener {
 
     private JFrame frame;
     private JLabel headingText = new JLabel("NEMA Client Application");
     private JLabel buttonText = new JLabel("Receive Database Details");
     private JLabel outputText = new JLabel("Output");
     private JLabel addTruckText = new JLabel("Add New Fire Truck");
-    private JButton getDrones = new JButton("Get Drones");
-    private JButton getFires = new JButton("Get Fires");
-    private JButton getOldFires = new JButton("Get Old Fires");
-    private JButton getTrucks = new JButton("Get Trucks");
-    private JButton newTruck = new JButton("Add Fire Truck");
-    private static JTextArea outputTextArea = new JTextArea(100, 60);
+    private JButton getDronesButton = new JButton("Get Drones");
+    private JButton getFiresButton = new JButton("Get Fires");
+    private JButton getOldFiresButton = new JButton("Get Historical Fires");
+    private JButton getTrucksButton = new JButton("Get Trucks");
+    private JButton newTruckButton = new JButton("Add Fire Truck");
+    private static JTextArea outputTextArea = new JTextArea(18, 55);
     private JScrollPane scrollPane; // Scroll pane for the text area
     
     Client() {
         // Sets GUI settings and layout
         super("NEMA Client");
+        
+        // Sets Application to close on x button clicked
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // Sets font for title
         headingText.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -51,10 +64,10 @@ public class Client extends JFrame {
         // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(750, 40));
-        buttonPanel.add(getDrones);
-        buttonPanel.add(getFires);
-        buttonPanel.add(getOldFires);
-        buttonPanel.add(getTrucks);
+        buttonPanel.add(getDronesButton);
+        buttonPanel.add(getFiresButton);
+        buttonPanel.add(getOldFiresButton);
+        buttonPanel.add(getTrucksButton);
         
         // Output Panel
         JPanel outputPanel = new JPanel();
@@ -62,15 +75,16 @@ public class Client extends JFrame {
         outputPanel.add(outputTextArea);
         
         // Text Area Vertical ScrollBar
-        scrollPane = new JScrollPane(outputText);
+        scrollPane = new JScrollPane(outputTextArea);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         outputPanel.add(scrollPane);
         
         // Output Panel
         JPanel addPanel = new JPanel();
         addPanel.setPreferredSize(new Dimension(750, 350));
-        addPanel.add(newTruck);
+        addPanel.add(newTruckButton);
         
+        // Add stuff to frame
         add(headingPanel);
         add(buttonText);
         add(buttonPanel);
@@ -79,8 +93,44 @@ public class Client extends JFrame {
         add(addTruckText);
         add(addPanel);
         
+        // Make GUI visible
         this.setVisible(true);
         
+        // Action Listeners for Buttons
+        getDronesButton.addActionListener(this);
+        getFiresButton.addActionListener(this);
+        getOldFiresButton.addActionListener(this);
+        getTrucksButton.addActionListener(this);
+        newTruckButton.addActionListener(this);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // This runs when an object action is clicked
+        // Gets the name of the object clicked and finds the case
+        // Runs the corresponding method and breaks the switch
+        String actionString=e.getActionCommand();
+        switch(actionString) {
+            case "Get Drones":
+                getDrones();
+                break;
+                
+            case "Get Fires":
+                getFires();
+                break;
+                
+            case "Get Historical Fires":
+                getOldFires();
+                break;
+                
+            case "Get Trucks":
+                getTrucks();
+                break;
+            
+            case "Add Add Fire Truck":
+                addFireTruck();
+                break;
+        }
     }
     
     public static void main(String[] args) {
@@ -88,4 +138,65 @@ public class Client extends JFrame {
         Client gui = new Client();
     }
     
+    public void getDrones() {
+        outputTextArea.setText("Drone Details:");
+        getData("drones");
+    }
+    
+    public void getFires() {
+        outputTextArea.setText("Current Fire Details:");
+        getData("fires");
+    }
+    
+    public void getOldFires() {
+        outputTextArea.setText("Historical Fire Details:");
+        getData("oldfires");
+    }
+    
+    public void getTrucks() {
+        outputTextArea.setText("Fire Truck Details:");
+        getData("firetrucks");
+    }
+    
+    public void addFireTruck() {
+        
+    }
+    
+    private void getData(String input) {
+        try {
+            // URL of web server
+            String url = "http://localhost:8080/webserver/service/" + input;
+            
+            // Open URL connection
+            URL apiUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            
+            // Set request method
+            connection.setRequestMethod("GET");
+            
+            // Opens Buffered reader and reads output from web server
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+            
+            // Goes through lines added in case there's more than one
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            
+            // Closes Reader
+            reader.close();
+            
+            // Adds response to output text area
+            outputTextArea.append(response.toString());
+            
+            // Close the connection
+            connection.disconnect();
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
