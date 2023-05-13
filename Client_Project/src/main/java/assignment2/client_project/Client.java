@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -206,6 +207,19 @@ public class Client extends JFrame implements ActionListener {
             // Open URL connection
             URL apiUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            
+            // Makes output with variables to be added seperated by commas
+            String output = intId + "," + enteredName + "," + intFireId;
+            
+            // Outputs the string to the web server to insert into database
+            connection.setDoOutput(true);
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write(output.getBytes());
+            outputStream.flush();
+            outputStream.close();
+            
+            // Close connection
+            connection.disconnect();
             
             
         } catch (MalformedURLException ex) {
