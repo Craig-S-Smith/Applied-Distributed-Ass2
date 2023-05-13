@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -163,6 +164,7 @@ public class Client extends JFrame implements ActionListener {
         int intFireId = 0;
         String enteredName = "";
         
+        // Gets input of fire truck id, if non int or nothing entered, reprompted
         while (true) {
             String enteredId = JOptionPane.showInputDialog(null, "Enter ID of new fire truck.");
             if (enteredId == null) {
@@ -176,6 +178,7 @@ public class Client extends JFrame implements ActionListener {
             }
         }
         
+        // Gets input for name of fire truck
         while (true) {
             enteredName = JOptionPane.showInputDialog(null, "Enter name of fire truck.");
             if (enteredName == null) {
@@ -185,6 +188,7 @@ public class Client extends JFrame implements ActionListener {
             }
         }
         
+        // Gets input of fire id, if non int or nothing entered, reprompted
         while (true) {
             String enteredFireId = JOptionPane.showInputDialog(null, "Enter ID of fire for truck to be sent to.");
             if (enteredFireId == null) {
@@ -206,6 +210,20 @@ public class Client extends JFrame implements ActionListener {
             // Open URL connection
             URL apiUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            
+            // Makes output with variables to be added seperated by commas
+            String output = intId + "," + enteredName + "," + intFireId;
+            
+            // Outputs the string to the web server to insert into database
+            // Flushes output for further use and closes outputstream
+            connection.setDoOutput(true);
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write(output.getBytes());
+            outputStream.flush();
+            outputStream.close();
+            
+            // Close connection
+            connection.disconnect();
             
             
         } catch (MalformedURLException ex) {
