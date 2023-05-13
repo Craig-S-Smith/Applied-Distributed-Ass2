@@ -224,8 +224,6 @@ public class Server extends JFrame implements ActionListener, Runnable {
     
     public static void main(String[] args) {
         
-        // Calls function to read data from files
-        readData();
         
         // Starts thread to update map and GUI because that's how it works apparently
         Server obj = new Server();
@@ -256,47 +254,27 @@ public class Server extends JFrame implements ActionListener, Runnable {
         boolean newDrone = true;
         boolean wasActive = false;
         
-        /* Checks each drone object in the drones ArrayList to see
-        if the ID is already present, if it is just updates that drone's
-        Name, Position and Active Status. If this happens says the drone
-        is not new.
-        */
-        for (DroneDetails p : drones) {
-                if (p.getId() == tempDrone.getId()) {
-                    
-                    if (p.getActive()) {
-                        wasActive = true;
-                    }
-                    
-                    p.setName(tempDrone.getName());
-                    p.setX_pos(tempDrone.getX_pos());
-                    p.setY_pos(tempDrone.getY_pos());
-                    p.setActive(tempDrone.getActive());
-
-                    newDrone = false;
-                    
-                    if (p.getActive()) {
-                        
-                        if (wasActive) {
-                            outputLog("Drone " + p.getId() + " moved to coordinates: " + p.getX_pos() + ", " + p.getY_pos() + ".");
-                        } else {
-                            outputLog("Drone Reregistered. ID: " + p.getId() + " Name: " + p.getName());
-                        }
-                    } else {
-                        outputLog("Drone " + p.getId() + " recalled.");
-                    }
-                    break;
-                }
-        }
-        
-        // If the drone is new, creates the drone object and adds it to the arraylist
-        if (newDrone) {
-            DroneDetails drone = new DroneDetails(tempDrone.getId(), tempDrone.getName(), tempDrone.getX_pos(), tempDrone.getY_pos(), tempDrone.getActive());
-            drones.add(drone);
-            outputLog("New Drone Registered. ID: " + drone.getId() + " Name: " + drone.getName());
-        }
-        
-        // System.out.println(drones.size() + " Drone Objects");
+        // Tries to add new fire details to table
+            try {
+            
+            // Sql for inserting data into table
+            String sql = "INSERT INTO drone (id,name,xpos,ypos)";
+            
+            // Statement object
+            PreparedStatement insertStmt = connection.prepareStatement(sql);
+            
+            // Set the values of the object
+            insertStmt.setInt(1, tempDrone.getId());
+            insertStmt.setString(2, tempDrone.getName());
+            insertStmt.setInt(3, tempDrone.getY_pos());
+            insertStmt.setInt(4, tempDrone.getX_pos());
+            
+            // Executes the sql
+            int rows = insertStmt.executeUpdate();
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     
     static void addFire(FireDetails tempFire) {
