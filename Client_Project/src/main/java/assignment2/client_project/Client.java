@@ -212,6 +212,7 @@ public class Client extends JFrame implements ActionListener {
             String output = intId + "," + enteredName + "," + intFireId;
             
             // Outputs the string to the web server to insert into database
+            // Flushes output for further use and closes outputstream
             connection.setDoOutput(true);
             OutputStream outputStream = connection.getOutputStream();
             outputStream.write(output.getBytes());

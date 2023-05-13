@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
  * @author diamo
  */
 
-@Path("service")
+@Path("/service")
 public class NEMAService {
     // Database connection authentication details
     static final String databaseURL = "jdbc:mysql://localhost:3306/ibdms_server";
