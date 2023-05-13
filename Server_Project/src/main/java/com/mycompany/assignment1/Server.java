@@ -171,6 +171,20 @@ public class Server extends JFrame implements ActionListener, Runnable {
         recallButton.addActionListener(this);
         moveButton.addActionListener(this);
         shutDownButton.addActionListener(this);
+        
+        // Tries to connect to  the database 
+        try
+        {
+            // Uses URL, USERNAME and PASSWORRD  to connect to database
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            
+            // Confirmation message when able to connected to database
+            System.out.println("Connection established");
+        
+        } catch (SQLException e) {
+            // Confirmation message when unable to connect to database
+            System.out.println("Could not connect to the database");
+        }
     }
     
     @Override
@@ -207,21 +221,6 @@ public class Server extends JFrame implements ActionListener, Runnable {
         private static String PASSWORD = "pass";
     
     public static void main(String[] args) {
-        
-        
-        // Tries to connect to  the database 
-        try
-        {
-            // Uses URL, USERNAME and PASSWORRD  to connect to database
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            
-            // Confirmation message when able to connected to database
-            System.out.println("Connection established");
-        
-        } catch (SQLException e) {
-            // Confirmation message when unable to connect to database
-            System.out.println("Could not connect to the database");
-        }
         
         // Calls function to read data from files
         readData();
