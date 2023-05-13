@@ -324,7 +324,7 @@ public class NEMAService {
             // Close Resources
             preparedStatement.close();
             connection.close();
-        } catch (Exception e) {
+        } catch (NumberFormatException | SQLException e) {
             e.printStackTrace();
         }
     }
