@@ -114,7 +114,10 @@ public class NEMAService {
                 }
             }
             
-            
+            // If active fires is still false, sets result to say there are no active fires
+            if (!activeFires) {
+                result = "There are no active fires.";
+            }
             
         } catch (SQLException e) {
             e.printStackTrace();
