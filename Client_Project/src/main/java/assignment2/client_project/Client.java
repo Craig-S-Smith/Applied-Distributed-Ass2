@@ -17,10 +17,12 @@ public class Client extends JFrame {
     private JLabel headingText = new JLabel("NEMA Client Application");
     private JLabel buttonText = new JLabel("Receive Database Details");
     private JLabel outputText = new JLabel("Output");
+    private JLabel addTruckText = new JLabel("Add New Fire Truck");
     private JButton getDrones = new JButton("Get Drones");
     private JButton getFires = new JButton("Get Fires");
     private JButton getOldFires = new JButton("Get Old Fires");
     private JButton getTrucks = new JButton("Get Trucks");
+    private JButton newTruck = new JButton("Add Fire Truck");
     private static JTextArea outputTextArea = new JTextArea(100, 60);
     private JScrollPane scrollPane; // Scroll pane for the text area
     
@@ -64,11 +66,18 @@ public class Client extends JFrame {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         outputPanel.add(scrollPane);
         
+        // Output Panel
+        JPanel addPanel = new JPanel();
+        addPanel.setPreferredSize(new Dimension(750, 350));
+        addPanel.add(newTruck);
+        
         add(headingPanel);
         add(buttonText);
         add(buttonPanel);
         add(outputText);
         add(outputPanel);
+        add(addTruckText);
+        add(addPanel);
         
         this.setVisible(true);
         
