@@ -344,8 +344,6 @@ public class Server extends JFrame implements ActionListener, Runnable {
         } catch (SQLException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
     }
     
     public void recallDrones() {
