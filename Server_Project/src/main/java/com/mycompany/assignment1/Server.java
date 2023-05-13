@@ -268,8 +268,13 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             // Executes the sql
             int rows = insertStmt.executeUpdate();
+            
             // Confirmation statement
             System.out.println(rows + " row(s) inserted");
+            
+            // closes connection
+            connection.close();
+            
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -299,11 +304,13 @@ public class Server extends JFrame implements ActionListener, Runnable {
             // Confirmation statement
             System.out.println(rows + " row(s) inserted");
             
+            // closes connection
+            connection.close();
+            
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    
     
     public void deleteFire() {
         // Triggered by Delete Fire Button
@@ -340,6 +347,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             // Confirmation statement
             System.out.println(rows + " row(s) inserted");
+            
+            // closes connection
+            connection.close();
             
         } catch (SQLException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
