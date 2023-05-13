@@ -336,14 +336,17 @@ public class Server extends JFrame implements ActionListener, Runnable {
             // Sql for inserting data into table
             String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos)";
             
+            // Statement object
             PreparedStatement insertStmt = connection.prepareStatement(sql);
-        
+            
+            // Set the values of the object
             insertStmt.setInt(1, tempFire.getId());
             insertStmt.setBoolean(2, tempFire.getActivity());
             insertStmt.setInt(3, tempFire.getSeverity());
             insertStmt.setInt(4, tempFire.getX_pos());
             insertStmt.setInt(5, tempFire.getY_pos());
             
+            // Executes the sql
             int rows = insertStmt.executeUpdate();
             
             } catch (SQLException ex) {
