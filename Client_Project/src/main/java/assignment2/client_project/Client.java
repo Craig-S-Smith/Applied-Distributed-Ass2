@@ -164,6 +164,7 @@ public class Client extends JFrame implements ActionListener {
         int intFireId = 0;
         String enteredName = "";
         
+        // Gets input of fire truck id, if non int or nothing entered, reprompted
         while (true) {
             String enteredId = JOptionPane.showInputDialog(null, "Enter ID of new fire truck.");
             if (enteredId == null) {
@@ -177,6 +178,7 @@ public class Client extends JFrame implements ActionListener {
             }
         }
         
+        // Gets input for name of fire truck
         while (true) {
             enteredName = JOptionPane.showInputDialog(null, "Enter name of fire truck.");
             if (enteredName == null) {
@@ -186,6 +188,7 @@ public class Client extends JFrame implements ActionListener {
             }
         }
         
+        // Gets input of fire id, if non int or nothing entered, reprompted
         while (true) {
             String enteredFireId = JOptionPane.showInputDialog(null, "Enter ID of fire for truck to be sent to.");
             if (enteredFireId == null) {
