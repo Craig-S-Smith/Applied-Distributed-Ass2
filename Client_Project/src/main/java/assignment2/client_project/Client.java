@@ -30,6 +30,7 @@ public class Client extends JFrame {
         // Sets GUI settings and layout
         super("NEMA Client");
         
+        // Sets Application to close on x button clicked
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // Sets font for title
@@ -90,15 +91,5 @@ public class Client extends JFrame {
     public static void main(String[] args) {
         // Start GUI
         Client gui = new Client();
-        addStuff();
     }
-    
-    public static void addStuff() {
-        int i = 0;
-        while (i < 100) {
-            outputTextArea.append("d\n");
-            i++;
-        }
-    }
-    
 }
