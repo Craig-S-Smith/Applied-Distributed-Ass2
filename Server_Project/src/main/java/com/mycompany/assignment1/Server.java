@@ -300,37 +300,8 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     static void addFire(FireDetails tempFire) {
-        
-        
-            /*
-            Assigns ID to the new fire object then adds it to the ArrayList
-            If the fire ArrayList is empty it will just give the Fire an ID of 0
-            If it's not it'll find the highest Fire ID and set it to one above that
-            Then makes a fire object and adds it to the arraylist and prints fire details
-            */
-            
-            /*
-            if (fires.isEmpty()) {
-            FireDetails fire = new FireDetails(0, tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
-            fires.add(fire);
-            outputLog("New Fire Spotted at " + fire.getX_pos() + ", " + fire.getY_pos() + " with severity " + fire.getSeverity() + ".");
-            } else {
-            int max = 0;
-            
-            for (FireDetails p : fires) {
-            if (p.getId() > max) {
-            max = p.getId();
-            }
-            }
-            
-            int fireId = max + 1;
-            
-            FireDetails fire = new FireDetails(fireId, tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
-            fires.add(fire);
-            outputLog("New Fire Spotted at " + fire.getX_pos() + ", " + fire.getY_pos() + " with severity " + fire.getSeverity() + ".");
-            }
-            */
-            
+
+            // Tries to add new fire details to table
             try {
             
             // Sql for inserting data into table
@@ -354,84 +325,6 @@ public class Server extends JFrame implements ActionListener, Runnable {
             }
         }
     
-    static void readData() {
-        /*
-        // Reads ArrayList from binary file drones.bin
-        try (
-            FileInputStream fileIn = new FileInputStream("drones.bin");
-            ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-            
-            ArrayList<DroneDetails> tempDrones = (ArrayList<DroneDetails>) objectIn.readObject();
-            
-            if (tempDrones != null) {
-                drones = tempDrones;
-            }
-            
-        } catch(EOFException | FileNotFoundException e) {
-        } catch(IOException e) {e.printStackTrace();
-	} catch(ClassNotFoundException ex){ex.printStackTrace();
-        }
-        
-        outputLog(drones.size() + " drones loaded.");
-        
-        // Reads file, each variable it checks is seperated by the delimiter, the comma
-        // Gets variables from each line and adds it to a fire object then the ArrayList
-        String line = "";
-        String csvDelimiter = ",";
-        
-        try (BufferedReader br = new BufferedReader(new FileReader("fires.csv"))) {
-        
-            // Read heading line
-            br.readLine();
-            
-            // Read remaining lines
-            while ((line = br.readLine()) != null) {
-               String[] data = line.split(csvDelimiter);
-               int id = Integer.parseInt(data[0]);
-               int x_pos = Integer.parseInt(data[1]);
-               int y_pos = Integer.parseInt(data[2]);
-               int droneId = Integer.parseInt(data[3]);
-               int severity = Integer.parseInt(data[4]);
-
-               FireDetails fire = new FireDetails(id, x_pos, y_pos, droneId, severity);
-               fires.add(fire);
-         }
-        } catch (IOException e) {
-           e.printStackTrace();
-        } catch (NumberFormatException e) { e.printStackTrace();
-        }
-        
-        outputLog(fires.size() + " fires loaded.");
-        */
-    }
-        
-    
-    static void saveData() {
-        // Saves drones arraylist to drones.bin
-        try (
-            FileOutputStream fileOut = new FileOutputStream("drones.bin");
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)
-            ) {
-            objectOut.writeObject(drones);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        // Saves each object in fires ArrayList to fires.csv
-        // Uses object .toCSV() to format the string with variables having commas between
-        try {
-            FileWriter writer = new FileWriter("fires.csv", false);
-            
-            // Writes heading line with column names
-            writer.write("Fire ID,X Position,Y Position,Reporting Drone ID,Severity\n");
-            
-            for (FireDetails p : fires) {
-                writer.write(p.toCSV() + "\n");
-            }
-            writer.close();
-        } catch(IOException e) {e.printStackTrace();
-        }
-    }
     
     public void deleteFire() {
         // Triggered by Delete Fire Button
