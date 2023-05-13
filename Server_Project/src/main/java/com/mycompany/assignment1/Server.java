@@ -96,6 +96,14 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
+    // Initialise connection
+        private static Connection connection;
+        
+        // Creates string for connection
+        private String URL = "jdbc:mysql://localhost:3306/ibdms_server";
+        private static final String USERNAME = "user";
+        private static final String PASSWORD = "pass";
+    
     Server() {
         // Sets settings for java swing GUI Frame
         super("Server GUI");
@@ -212,13 +220,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-        // Initialise connection
-        private Connection connection;
         
-        // Creates string for connection
-        private static String URL = "jdbc:mysql://localhost:3306/ibdms_server";
-        private static String USERNAME = "user";
-        private static String PASSWORD = "pass";
     
     public static void main(String[] args) {
         
@@ -350,15 +352,14 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     
     static void readData() {
+        /*
         // Reads ArrayList from binary file drones.bin
         try (
             FileInputStream fileIn = new FileInputStream("drones.bin");
             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
             
             ArrayList<DroneDetails> tempDrones = (ArrayList<DroneDetails>) objectIn.readObject();
-            /* If the file is empty the tempDrones arraylist will be null
-            If this is the case it will not set this temp arraylist to be
-            the main arraylist. */
+            
             if (tempDrones != null) {
                 drones = tempDrones;
             }
@@ -398,7 +399,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
         
         outputLog(fires.size() + " fires loaded.");
+        */
     }
+        
     
     static void saveData() {
         // Saves drones arraylist to drones.bin
