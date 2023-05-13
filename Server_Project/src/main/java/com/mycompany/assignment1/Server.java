@@ -268,7 +268,8 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             // Executes the sql
             int rows = insertStmt.executeUpdate();
-            
+            // Confirmation statement
+            System.out.println(rows + " row(s) inserted");
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -295,6 +296,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
             // Executes the sql
             int rows = insertStmt.executeUpdate();
             
+            // Confirmation statement
+            System.out.println(rows + " row(s) inserted");
+            
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -306,7 +310,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // intId is the id that'll be entered
         int intId = -1;
         // Sql for inserting data into table
-        String sql = "DELETE FROM fire WWHERE id = ?";
+        String sql = "UPDATE fire SET isActive = fales WHERE id = ?";
         // Statement object
         PreparedStatement delStmt = connection.prepareStatement(sql);
         
@@ -327,10 +331,16 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
         // tries to set and execute sql
         try {
+            
             // Set the values of the object
             delStmt.setInt(1, intId);
+            
             // Executes sql
-            int del = delStmt.executeUpdate();
+            int rows = delStmt.executeUpdate();
+            
+            // Confirmation statement
+            System.out.println(rows + " row(s) inserted");
+            
         } catch (SQLException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
