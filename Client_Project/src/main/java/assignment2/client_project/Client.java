@@ -22,8 +22,7 @@ import javax.swing.*;
  * @author diamo
  */
 public class Client extends JFrame implements ActionListener {
-
-    private JFrame frame;
+    
     private JLabel headingText = new JLabel("NEMA Client Application");
     private JLabel buttonText = new JLabel("Receive Database Details");
     private JLabel outputText = new JLabel("Output");
@@ -127,7 +126,7 @@ public class Client extends JFrame implements ActionListener {
                 getTrucks();
                 break;
             
-            case "Add Add Fire Truck":
+            case "Add Fire Truck":
                 addFireTruck();
                 break;
         }
@@ -160,10 +159,51 @@ public class Client extends JFrame implements ActionListener {
     
     public void addFireTruck() {
         
+        int intId = 0;
+        int intFireId = 0;
+        String enteredName = "";
+        
+        while (true) {
+            String enteredId = JOptionPane.showInputDialog(null, "Enter ID of new fire truck.");
+            if (enteredId == null) {
+                return;
+            }
+            try {
+                intId = Integer.parseInt(enteredId);
+                break;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "ID must be numerical.");
+            }
+        }
+        
+        while (true) {
+            enteredName = JOptionPane.showInputDialog(null, "Enter name of fire truck.");
+            if (enteredName == null) {
+                return;
+            } else {
+                break;
+            }
+        }
+        
+        while (true) {
+            String enteredFireId = JOptionPane.showInputDialog(null, "Enter ID of fire for truck to be sent to.");
+            if (enteredFireId == null) {
+                return;
+            }
+            try {
+                intFireId = Integer.parseInt(enteredFireId);
+                break;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "ID must be numerical.");
+            }
+        }
+        
+        JOptionPane.showMessageDialog(null, "Fire Truck Added\nID: " + intId + "\nName: " + enteredName + "\nFire ID: " + intFireId);
     }
     
     private void getData(String input) {
         try {
+            // Gets data from web service, URL determined by button input
             // URL of web server
             String url = "http://localhost:8080/webserver/service/" + input;
             
