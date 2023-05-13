@@ -16,9 +16,9 @@ import javax.ws.rs.core.MediaType;
 @Path("service")
 public class NEMAService {
     // Database connection authentication details
-    static final String DatabaseURL = "jdbc:mysql://localhost:3306/ibdms_server";
-    static final String DatabaseUser = "user";
-    static final String DatabasePass = "pass";
+    static final String databaseURL = "jdbc:mysql://localhost:3306/ibdms_server";
+    static final String databaseUser = "user";
+    static final String databasePass = "pass";
     
     @GET
     @Path("drone")
@@ -34,7 +34,7 @@ public class NEMAService {
         
         try {
             // Connect to database
-            connection = DriverManager.getConnection(DatabaseURL, DatabaseUser, DatabasePass);
+            connection = DriverManager.getConnection(databaseURL, databaseUser, databasePass);
             
             // Preparing statement
             statement = connection.createStatement();
@@ -100,7 +100,7 @@ public class NEMAService {
         
         try {
             // Connect to database
-            connection = DriverManager.getConnection(DatabaseURL, DatabaseUser, DatabasePass);
+            connection = DriverManager.getConnection(databaseURL, databaseUser, databasePass);
             
             // Preparing statement
             statement = connection.createStatement();
@@ -170,7 +170,7 @@ public class NEMAService {
         
         try {
             // Connect to database
-            connection = DriverManager.getConnection(DatabaseURL, DatabaseUser, DatabasePass);
+            connection = DriverManager.getConnection(databaseURL, databaseUser, databasePass);
             
             // Preparing statement
             statement = connection.createStatement();
@@ -240,7 +240,7 @@ public class NEMAService {
         
         try {
             // Connect to database
-            connection = DriverManager.getConnection(DatabaseURL, DatabaseUser, DatabasePass);
+            connection = DriverManager.getConnection(databaseURL, databaseUser, databasePass);
             
             // Preparing statement
             statement = connection.createStatement();
