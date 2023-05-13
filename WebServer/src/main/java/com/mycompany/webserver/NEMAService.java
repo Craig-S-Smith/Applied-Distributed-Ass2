@@ -213,4 +213,70 @@ public class NEMAService {
         return result;
         
     }
+    
+    @GET
+    @Path("firetrucks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getFireTrucks() {
+        // Gets fire trucks
+        String result = "";
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        
+        // This boolean will be activated if there is a fire truck
+        boolean isFireTrucks = false;
+        
+        try {
+            // Connect to database
+            connection = DriverManager.getConnection(DatabaseURL, DatabaseUser, DatabasePass);
+            
+            // Preparing statement
+            statement = connection.createStatement();
+            
+            // Execute Query
+            String sql = "SELECT * FROM fire";
+            resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {
+                
+                // Gets details from mySQL
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int designatedFireId = resultSet.getInt("designatedFireId");
+                
+                isFireTrucks = true;
+                
+                // Adds to result string
+                result += "ID: " + id + ", Name: " + name + ", Designated Fire ID: " + designatedFireId + "\n";
+            }
+            
+            // If active fires is still false, sets result to say there are no active fires
+            if (!isFireTrucks) {
+                result = "There are no firetrucks.";
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close all the resources
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        // Returns result
+        return result;
+        
+    }
 }
