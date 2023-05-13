@@ -19,6 +19,7 @@ public class FireDetails  implements Serializable {
     
     // Values in this object
     private int id;
+    private boolean isActive;
     private int x_pos;
     private int y_pos;
     private int droneId;
@@ -26,8 +27,9 @@ public class FireDetails  implements Serializable {
     
     // Constructor
     
-    public FireDetails (int id, int x_pos, int y_pos, int droneId, int severity) {
+    public FireDetails (int id,boolean isActive, int x_pos, int y_pos, int droneId, int severity) {
         this.id = id;
+        this.isActive = isActive;
         this.x_pos = x_pos;
         this.y_pos = y_pos;
         this.droneId = droneId;
@@ -38,6 +40,10 @@ public class FireDetails  implements Serializable {
     
     public int getId() {
         return id;
+    }
+    
+    public boolean getActivity() {
+        return isActive;
     }
     
     public int getX_pos() {
@@ -62,6 +68,10 @@ public class FireDetails  implements Serializable {
         this.id = id;
     }
     
+    public void setActivity(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     public void setX_pos(int x_pos) {
         this.x_pos = x_pos;
     }
@@ -81,6 +91,7 @@ public class FireDetails  implements Serializable {
     public String toCSV() {
         return
                 id + "," +
+                isActive + "," +
                 x_pos + "," +
                 y_pos + "," +
                 droneId + "," +
@@ -92,6 +103,7 @@ public class FireDetails  implements Serializable {
     public String toString() {
         return 
                "Fire ID: " + id + "\n" +
+               "Fire Activity: " + isActive + "\n" +
                "X Position: " + x_pos + "\n" +
                "Y Position: " + y_pos + "\n" +
                "Drone Reporting: " + droneId + "\n" +
