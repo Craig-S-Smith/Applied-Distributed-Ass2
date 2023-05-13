@@ -10,6 +10,8 @@ import java.net.*;
 import java.io.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -196,6 +198,25 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     public static void main(String[] args) {
+        
+        Connection connection;
+        
+        String URL = "jdbc:mysql://localhost:3306/ibdms_server";
+        String USERNAME = "user";
+        String PASSWORD = "pass";
+        
+        try
+        {
+            
+        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        
+        System.out.println("Connection established");
+          
+        } catch (SQLException e) {
+          System.out.println("Could not connect to the database");
+          e.printStackTrace();
+        }
+        
         // Calls function to read data from files
         readData();
         
