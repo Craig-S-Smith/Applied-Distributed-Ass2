@@ -198,23 +198,26 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     public static void main(String[] args) {
-        
+        // Initialise connection
         Connection connection;
         
+        // Creates string for connection
         String URL = "jdbc:mysql://localhost:3306/ibdms_server";
         String USERNAME = "user";
         String PASSWORD = "pass";
         
+        // Tries to connect to  the database 
         try
         {
+            // Uses URL, USERNAME and PASSWORRD  to connect to database
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
-        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            // Confirmation message when able to connected to database
+            System.out.println("Connection established");
         
-        System.out.println("Connection established");
-          
         } catch (SQLException e) {
-          System.out.println("Could not connect to the database");
-          e.printStackTrace();
+            // Confirmation message when unable to connect to database
+            System.out.println("Could not connect to the database");
         }
         
         // Calls function to read data from files
