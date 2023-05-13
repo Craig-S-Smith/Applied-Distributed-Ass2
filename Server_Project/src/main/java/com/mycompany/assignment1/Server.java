@@ -96,6 +96,14 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
+    // Initialise connection
+        private static Connection connection;
+        
+        // Creates string for connection
+        private String URL = "jdbc:mysql://localhost:3306/ibdms_server";
+        private static final String USERNAME = "user";
+        private static final String PASSWORD = "pass";
+    
     Server() {
         // Sets settings for java swing GUI Frame
         super("Server GUI");
@@ -171,6 +179,20 @@ public class Server extends JFrame implements ActionListener, Runnable {
         recallButton.addActionListener(this);
         moveButton.addActionListener(this);
         shutDownButton.addActionListener(this);
+        
+        // Tries to connect to  the database 
+        try
+        {
+            // Uses URL, USERNAME and PASSWORRD  to connect to database
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            
+            // Confirmation message when able to connected to database
+            System.out.println("Connection established");
+        
+        } catch (SQLException e) {
+            // Confirmation message when unable to connect to database
+            System.out.println("Could not connect to the database");
+        }
     }
     
     @Override
@@ -198,30 +220,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-        // Initialise connection
-        private Connection connection;
         
-        // Creates string for connection
-        private static String URL = "jdbc:mysql://localhost:3306/ibdms_server";
-        private static String USERNAME = "user";
-        private static String PASSWORD = "pass";
     
     public static void main(String[] args) {
-        
-        
-        // Tries to connect to  the database 
-        try
-        {
-            // Uses URL, USERNAME and PASSWORRD  to connect to database
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            
-            // Confirmation message when able to connected to database
-            System.out.println("Connection established");
-        
-        } catch (SQLException e) {
-            // Confirmation message when unable to connect to database
-            System.out.println("Could not connect to the database");
-        }
         
         // Calls function to read data from files
         readData();
@@ -300,25 +301,26 @@ public class Server extends JFrame implements ActionListener, Runnable {
     
     static void addFire(FireDetails tempFire) {
         
-        /*
-        Assigns ID to the new fire object then adds it to the ArrayList
-        If the fire ArrayList is empty it will just give the Fire an ID of 0
-        If it's not it'll find the highest Fire ID and set it to one above that
-        Then makes a fire object and adds it to the arraylist and prints fire details
-        */
         
-        /*
-        if (fires.isEmpty()) {
+            /*
+            Assigns ID to the new fire object then adds it to the ArrayList
+            If the fire ArrayList is empty it will just give the Fire an ID of 0
+            If it's not it'll find the highest Fire ID and set it to one above that
+            Then makes a fire object and adds it to the arraylist and prints fire details
+            */
+            
+            /*
+            if (fires.isEmpty()) {
             FireDetails fire = new FireDetails(0, tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
             fires.add(fire);
             outputLog("New Fire Spotted at " + fire.getX_pos() + ", " + fire.getY_pos() + " with severity " + fire.getSeverity() + ".");
-        } else {
+            } else {
             int max = 0;
             
             for (FireDetails p : fires) {
-                if (p.getId() > max) {
-                    max = p.getId();
-                }
+            if (p.getId() > max) {
+            max = p.getId();
+            }
             }
             
             int fireId = max + 1;
@@ -326,26 +328,38 @@ public class Server extends JFrame implements ActionListener, Runnable {
             FireDetails fire = new FireDetails(fireId, tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
             fires.add(fire);
             outputLog("New Fire Spotted at " + fire.getX_pos() + ", " + fire.getY_pos() + " with severity " + fire.getSeverity() + ".");
+            }
+            */
+            
+            try {
+            
+            // Sql for inserting data into table
+            String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos)";
+            
+            PreparedStatement insertStmt = connection.prepareStatement(sql);
+        
+            insertStmt.setInt(1, tempFire.getId());
+            insertStmt.setBoolean(2, tempFire.getActivity());
+            insertStmt.setInt(3, tempFire.getSeverity());
+            insertStmt.setInt(4, tempFire.getX_pos());
+            insertStmt.setInt(5, tempFire.getY_pos());
+            
+            int rows = insertStmt.executeUpdate();
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        */
-        
-        // Sql for inserting data into table
-        String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos)";
-        
-        PreparedStatement insertStmt = connection.prepareStatement(sql);
-        
-    }
     
     static void readData() {
+        /*
         // Reads ArrayList from binary file drones.bin
         try (
             FileInputStream fileIn = new FileInputStream("drones.bin");
             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
             
             ArrayList<DroneDetails> tempDrones = (ArrayList<DroneDetails>) objectIn.readObject();
-            /* If the file is empty the tempDrones arraylist will be null
-            If this is the case it will not set this temp arraylist to be
-            the main arraylist. */
+            
             if (tempDrones != null) {
                 drones = tempDrones;
             }
@@ -385,7 +399,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
         
         outputLog(fires.size() + " fires loaded.");
+        */
     }
+        
     
     static void saveData() {
         // Saves drones arraylist to drones.bin
