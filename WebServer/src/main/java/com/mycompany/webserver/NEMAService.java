@@ -314,7 +314,7 @@ public class NEMAService {
             connection = DriverManager.getConnection(databaseURL, databaseUser, databasePass);
 
             // Prepare SQL statement
-            String sql = "INSERT INTO firetruck (id, name, designatedFireId) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO firetrucks (id, name, designatedFireId) VALUES (?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, name);
