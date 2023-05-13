@@ -8,7 +8,9 @@ package assignment2.client_project;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -168,6 +170,28 @@ public class Client extends JFrame implements ActionListener {
             // Open URL connection
             URL apiUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            
+            // Set request method
+            connection.setRequestMethod("GET");
+            
+            // Opens Buffered reader and reads output from web server
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+            
+            // Goes through lines added in case there's more than one
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            
+            // Closes Reader
+            reader.close();
+            
+            // Adds response to output text area
+            outputTextArea.append(response.toString());
+            
+            // Close the connection
+            connection.disconnect();
             
         } catch (MalformedURLException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
