@@ -21,7 +21,7 @@ public class NEMAService {
     static final String databasePass = "pass";
     
     @GET
-    @Path("drone")
+    @Path("drones")
     @Produces(MediaType.APPLICATION_JSON)
     public String getDrones() {
         // Gets registered drones
@@ -174,6 +174,7 @@ public class NEMAService {
             connection = DriverManager.getConnection(databaseURL, databaseUser, databasePass);
             
             // Preparing statement
+            // Since it's an insert, have to prepare statement to stop SQL injection
             statement = connection.createStatement();
             
             // Execute Query
@@ -314,6 +315,7 @@ public class NEMAService {
 
             // Prepare SQL statement
             String sql = "INSERT INTO firetruck (id, name, designatedFireId) VALUES (?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, name);
             preparedStatement.setInt(3, designatedFireId);
