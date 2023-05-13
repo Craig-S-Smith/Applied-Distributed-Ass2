@@ -300,25 +300,26 @@ public class Server extends JFrame implements ActionListener, Runnable {
     
     static void addFire(FireDetails tempFire) {
         
-        /*
-        Assigns ID to the new fire object then adds it to the ArrayList
-        If the fire ArrayList is empty it will just give the Fire an ID of 0
-        If it's not it'll find the highest Fire ID and set it to one above that
-        Then makes a fire object and adds it to the arraylist and prints fire details
-        */
         
-        /*
-        if (fires.isEmpty()) {
+            /*
+            Assigns ID to the new fire object then adds it to the ArrayList
+            If the fire ArrayList is empty it will just give the Fire an ID of 0
+            If it's not it'll find the highest Fire ID and set it to one above that
+            Then makes a fire object and adds it to the arraylist and prints fire details
+            */
+            
+            /*
+            if (fires.isEmpty()) {
             FireDetails fire = new FireDetails(0, tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
             fires.add(fire);
             outputLog("New Fire Spotted at " + fire.getX_pos() + ", " + fire.getY_pos() + " with severity " + fire.getSeverity() + ".");
-        } else {
+            } else {
             int max = 0;
             
             for (FireDetails p : fires) {
-                if (p.getId() > max) {
-                    max = p.getId();
-                }
+            if (p.getId() > max) {
+            max = p.getId();
+            }
             }
             
             int fireId = max + 1;
@@ -326,15 +327,28 @@ public class Server extends JFrame implements ActionListener, Runnable {
             FireDetails fire = new FireDetails(fireId, tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
             fires.add(fire);
             outputLog("New Fire Spotted at " + fire.getX_pos() + ", " + fire.getY_pos() + " with severity " + fire.getSeverity() + ".");
+            }
+            */
+            
+            try {
+            
+            // Sql for inserting data into table
+            String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos)";
+            
+            PreparedStatement insertStmt = connection.prepareStatement(sql);
+        
+            insertStmt.setInt(1, tempFire.getId());
+            insertStmt.setBoolean(2, tempFire.getActivity());
+            insertStmt.setInt(3, tempFire.getSeverity());
+            insertStmt.setInt(4, tempFire.getX_pos());
+            insertStmt.setInt(5, tempFire.getY_pos());
+            
+            int rows = insertStmt.executeUpdate();
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        */
-        
-        // Sql for inserting data into table
-        String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos)";
-        
-        PreparedStatement insertStmt = connection.prepareStatement(sql);
-        
-    }
     
     static void readData() {
         // Reads ArrayList from binary file drones.bin
