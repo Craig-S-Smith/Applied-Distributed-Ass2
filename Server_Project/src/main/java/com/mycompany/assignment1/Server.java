@@ -8,15 +8,14 @@ package com.mycompany.assignment1;
 import java.awt.*;
 import java.net.*;
 import java.io.*;
+import java.sql.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -97,11 +96,11 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-    // Initialise connection
+        // Initialise connection
         private static Connection connection;
         
         // Creates string for connection
-        private String URL = "jdbc:mysql://localhost:3306/ibdms_server";
+        private static String URL = "jdbc:mysql://localhost:3306/ibdms_server";
         private static final String USERNAME = "user";
         private static final String PASSWORD = "pass";
     
@@ -181,6 +180,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         moveButton.addActionListener(this);
         shutDownButton.addActionListener(this);
         
+        // check to see if database is connectable
         // Tries to connect to  the database 
         try
         {
@@ -193,6 +193,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
         } catch (SQLException e) {
             // Confirmation message when unable to connect to database
             System.out.println("Could not connect to the database");
+        }
+        finally{
+            // closes connection
+            connection.close();
         }
     }
     
@@ -254,6 +258,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
             // Tries to add new drone details to table
             try {
             
+            // Uses URL, USERNAME and PASSWORRD  to connect to database
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                
             // Sql for inserting data into table
             String sql = "INSERT INTO drone (id,name,xpos,ypos) VALUES ( ?, ?, ?, ?);";
             
