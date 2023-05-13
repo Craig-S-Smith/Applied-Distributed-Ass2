@@ -29,6 +29,9 @@ public class NEMAService {
         Statement statement = null;
         ResultSet resultSet = null;
         
+        // This boolean will be activated if there is a registered drone
+        boolean registeredDrones = false;
+        
         try {
             // Connect to database
             connection = DriverManager.getConnection(DatabaseURL, DatabaseUser, DatabasePass);
@@ -48,9 +51,17 @@ public class NEMAService {
                 int x_pos = resultSet.getInt("xpos");
                 int y_pos = resultSet.getInt("ypos");
                 
+                registeredDrones = true;
+                
                 // Adds to result string
                 result += "ID: " + id + ", Name: " + name + ", X Position: " + x_pos + ", Y Position: " + y_pos + "\n";
             }
+            
+            // If inactive fires is still false, sets result to say there are no inactive fires
+            if (!registeredDrones) {
+                result = "There are no registered drones.";
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -185,9 +196,9 @@ public class NEMAService {
                 }
             }
             
-            // If active fires is still false, sets result to say there are no active fires
+            // If inactive fires is still false, sets result to say there are no inactive fires
             if (!inactiveFires) {
-                result = "There are no current fires.";
+                result = "There are no old fires.";
             }
             
         } catch (SQLException e) {
@@ -235,7 +246,7 @@ public class NEMAService {
             statement = connection.createStatement();
             
             // Execute Query
-            String sql = "SELECT * FROM fire";
+            String sql = "SELECT * FROM firetrucks";
             resultSet = statement.executeQuery(sql);
             
             while (resultSet.next()) {
@@ -251,9 +262,9 @@ public class NEMAService {
                 result += "ID: " + id + ", Name: " + name + ", Designated Fire ID: " + designatedFireId + "\n";
             }
             
-            // If active fires is still false, sets result to say there are no active fires
+            // If active firetrucks is still false, sets result to say there are no active fire trucks
             if (!isFireTrucks) {
-                result = "There are no firetrucks.";
+                result = "There are no active firetrucks.";
             }
             
         } catch (SQLException e) {
