@@ -254,7 +254,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         boolean newDrone = true;
         boolean wasActive = false;
         
-        // Tries to add new fire details to table
+        // Tries to add new drone details to table
             try {
             
             // Sql for inserting data into table
