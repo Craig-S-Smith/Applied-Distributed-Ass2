@@ -154,8 +154,8 @@ public class NEMAService {
         Statement statement = null;
         ResultSet resultSet = null;
         
-        // This boolean will be activated if there is an active fire
-        boolean activeFires = false;
+        // This boolean will be activated if there is an inactive fire
+        boolean inactiveFires = false;
         
         try {
             // Connect to database
@@ -179,14 +179,14 @@ public class NEMAService {
                 
                 // Checks if fire is inactive, if so, adds it to result
                 if (!isActive) {
-                    activeFires = true;
+                    inactiveFires = true;
                     // Adds to result string
                     result += "ID: " + id + ", Active: false" + ", Intensity: " + intensity + ", X Position: " + x_pos + ", Y Position: " + y_pos + "\n";
                 }
             }
             
             // If active fires is still false, sets result to say there are no active fires
-            if (!activeFires) {
+            if (!inactiveFires) {
                 result = "There are no current fires.";
             }
             
