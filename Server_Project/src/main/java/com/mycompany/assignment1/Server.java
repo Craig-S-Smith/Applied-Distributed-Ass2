@@ -303,6 +303,8 @@ public class Server extends JFrame implements ActionListener, Runnable {
         If it's not it'll find the highest Fire ID and set it to one above that
         Then makes a fire object and adds it to the arraylist and prints fire details
         */
+        
+        /*
         if (fires.isEmpty()) {
             FireDetails fire = new FireDetails(0, tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
             fires.add(fire);
@@ -322,6 +324,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             fires.add(fire);
             outputLog("New Fire Spotted at " + fire.getX_pos() + ", " + fire.getY_pos() + " with severity " + fire.getSeverity() + ".");
         }
+        */
         
         
         
