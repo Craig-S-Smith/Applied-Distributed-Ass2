@@ -326,7 +326,8 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
         */
         
-        
+        // Sql for inserting data into table
+        String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos)";
         
     }
     
