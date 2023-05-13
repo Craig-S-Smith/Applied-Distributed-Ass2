@@ -23,12 +23,14 @@ public class Client extends JFrame {
     private JButton getOldFires = new JButton("Get Old Fires");
     private JButton getTrucks = new JButton("Get Trucks");
     private JButton newTruck = new JButton("Add Fire Truck");
-    private static JTextArea outputTextArea = new JTextArea(100, 60);
+    private static JTextArea outputTextArea = new JTextArea(18, 55);
     private JScrollPane scrollPane; // Scroll pane for the text area
     
     Client() {
         // Sets GUI settings and layout
         super("NEMA Client");
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // Sets font for title
         headingText.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -62,7 +64,7 @@ public class Client extends JFrame {
         outputPanel.add(outputTextArea);
         
         // Text Area Vertical ScrollBar
-        scrollPane = new JScrollPane(outputText);
+        scrollPane = new JScrollPane(outputTextArea);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         outputPanel.add(scrollPane);
         
@@ -71,6 +73,7 @@ public class Client extends JFrame {
         addPanel.setPreferredSize(new Dimension(750, 350));
         addPanel.add(newTruck);
         
+        // Add stuff to frame
         add(headingPanel);
         add(buttonText);
         add(buttonPanel);
@@ -79,6 +82,7 @@ public class Client extends JFrame {
         add(addTruckText);
         add(addPanel);
         
+        // Make GUI visible
         this.setVisible(true);
         
     }
@@ -86,6 +90,15 @@ public class Client extends JFrame {
     public static void main(String[] args) {
         // Start GUI
         Client gui = new Client();
+        addStuff();
+    }
+    
+    public static void addStuff() {
+        int i = 0;
+        while (i < 100) {
+            outputTextArea.append("d\n");
+            i++;
+        }
     }
     
 }
