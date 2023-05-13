@@ -196,6 +196,12 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     public static void main(String[] args) {
+        
+        String URL = "jdbc:mysql://localhost:3306/ibdms_server";
+        String USERNAME = "user";
+        String PASSWORD = "pass";
+        
+        
         // Calls function to read data from files
         readData();
         
