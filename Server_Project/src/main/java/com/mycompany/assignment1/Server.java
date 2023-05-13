@@ -10,6 +10,7 @@ import java.net.*;
 import java.io.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -224,7 +225,6 @@ public class Server extends JFrame implements ActionListener, Runnable {
     
     public static void main(String[] args) {
         
-        
         // Starts thread to update map and GUI because that's how it works apparently
         Server obj = new Server();
         Thread thread = new Thread(obj);
@@ -250,15 +250,12 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     static void addDrone(DroneDetails tempDrone) {
-        // Assumes drone is new until found otherwise
-        boolean newDrone = true;
-        boolean wasActive = false;
         
-        // Tries to add new drone details to table
+            // Tries to add new drone details to table
             try {
             
             // Sql for inserting data into table
-            String sql = "INSERT INTO drone (id,name,xpos,ypos)";
+            String sql = "INSERT INTO drone (id,name,xpos,ypos) VALUES ( ?, ?, ?, ?);";
             
             // Statement object
             PreparedStatement insertStmt = connection.prepareStatement(sql);
@@ -283,7 +280,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             try {
             
             // Sql for inserting data into table
-            String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos)";
+            String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos) VALUES ( ?, ?, ?, ?, ?);";
             
             // Statement object
             PreparedStatement insertStmt = connection.prepareStatement(sql);
@@ -308,44 +305,37 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Triggered by Delete Fire Button
         // intId is the id that'll be entered
         int intId = -1;
+        // Sql for inserting data into table
+        String sql = "DELETE FROM fire WWHERE id = ?";
+        // Statement object
+        PreparedStatement delStmt = connection.prepareStatement(sql);
         
-        /*
-        Opens Option Pane prompting for a Fire ID
-        If cancel is pressed, null will be returned causing the loop to break
-        otherwise it'll attempt to parse the ID to int, if this fails the user will be reprompted after an error message
-        */
         while (true) {
+            // Prompts user to enter drone id
             String enteredId = JOptionPane.showInputDialog(null, "Enter a Fire ID");
+            // Stops iff canceled
             if (enteredId == null) {
                 return;
             }
             try {
+                // converts string to int
                 intId = Integer.parseInt(enteredId);
                 break;
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "ID must be numerical.");
             }
         }
-        
-        // Iterator goes through ArrayList until it finds the ID, removes the object from ArrayList
-        // Originally used a for loop, didn't work for some reason
-        // If fire existed sets boolean to true, else will output no fire found message
-        boolean fireExists = false;
-        
-        Iterator<FireDetails> iterator = fires.iterator();
-            while (iterator.hasNext()) {
-                FireDetails p = iterator.next();
-                if (p.getId() == intId) {
-                    iterator.remove();
-                    outputLog("Fire " + intId + " removed.");
-                    fireExists = true;
-                    break;
-            }
+        // tries to set and execute sql
+        try {
+            // Set the values of the object
+            delStmt.setInt(1, intId);
+            // Executes sql
+            int del = delStmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if (!fireExists) {
-            outputLog("Fire " + intId + " not found.");
-        }
+        
     }
     
     public void recallDrones() {
@@ -468,7 +458,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             if (!dronesActive) {
                 outputLog("Shut Down Commencing.");
-                saveData();
+                connection.close;
                 System.exit(0);
             }
         }
