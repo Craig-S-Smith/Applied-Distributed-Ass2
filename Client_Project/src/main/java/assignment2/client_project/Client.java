@@ -6,23 +6,25 @@
 package assignment2.client_project;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 /**
  *
  * @author diamo
  */
-public class Client extends JFrame {
+public class Client extends JFrame implements ActionListener {
 
     private JFrame frame;
     private JLabel headingText = new JLabel("NEMA Client Application");
     private JLabel buttonText = new JLabel("Receive Database Details");
     private JLabel outputText = new JLabel("Output");
     private JLabel addTruckText = new JLabel("Add New Fire Truck");
-    private JButton getDrones = new JButton("Get Drones");
-    private JButton getFires = new JButton("Get Fires");
-    private JButton getOldFires = new JButton("Get Old Fires");
-    private JButton getTrucks = new JButton("Get Trucks");
-    private JButton newTruck = new JButton("Add Fire Truck");
+    private JButton getDronesButton = new JButton("Get Drones");
+    private JButton getFiresButton = new JButton("Get Fires");
+    private JButton getOldFiresButton = new JButton("Get Historical Fires");
+    private JButton getTrucksButton = new JButton("Get Trucks");
+    private JButton newTruckButton = new JButton("Add Fire Truck");
     private static JTextArea outputTextArea = new JTextArea(18, 55);
     private JScrollPane scrollPane; // Scroll pane for the text area
     
@@ -54,10 +56,10 @@ public class Client extends JFrame {
         // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(750, 40));
-        buttonPanel.add(getDrones);
-        buttonPanel.add(getFires);
-        buttonPanel.add(getOldFires);
-        buttonPanel.add(getTrucks);
+        buttonPanel.add(getDronesButton);
+        buttonPanel.add(getFiresButton);
+        buttonPanel.add(getOldFiresButton);
+        buttonPanel.add(getTrucksButton);
         
         // Output Panel
         JPanel outputPanel = new JPanel();
@@ -72,7 +74,7 @@ public class Client extends JFrame {
         // Output Panel
         JPanel addPanel = new JPanel();
         addPanel.setPreferredSize(new Dimension(750, 350));
-        addPanel.add(newTruck);
+        addPanel.add(newTruckButton);
         
         // Add stuff to frame
         add(headingPanel);
@@ -86,10 +88,65 @@ public class Client extends JFrame {
         // Make GUI visible
         this.setVisible(true);
         
+        // Action Listeners for Buttons
+        getDronesButton.addActionListener(this);
+        getFiresButton.addActionListener(this);
+        getOldFiresButton.addActionListener(this);
+        getTrucksButton.addActionListener(this);
+        newTruckButton.addActionListener(this);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // This runs when an object action is clicked
+        // Gets the name of the object clicked and finds the case
+        // Runs the corresponding method and breaks the switch
+        String actionString=e.getActionCommand();
+        switch(actionString) {
+            case "Get Drones":
+                getDrones();
+                break;
+                
+            case "Get Fires":
+                getFires();
+                break;
+                
+            case "Get Historical Fires":
+                getOldFires();
+                break;
+                
+            case "Get Trucks":
+                getTrucks();
+                break;
+            
+            case "Add Add Fire Truck":
+                addFireTruck();
+                break;
+        }
     }
     
     public static void main(String[] args) {
         // Start GUI
         Client gui = new Client();
+    }
+    
+    public void getDrones() {
+        outputTextArea.setText("Drone Details:");
+    }
+    
+    public void getFires() {
+        outputTextArea.setText("Current Fire Details:");
+    }
+    
+    public void getOldFires() {
+        outputTextArea.setText("Historical Fire Details:");
+    }
+    
+    public void getTrucks() {
+        outputTextArea.setText("Fire Truck Details:");
+    }
+    
+    public void addFireTruck() {
+        
     }
 }
