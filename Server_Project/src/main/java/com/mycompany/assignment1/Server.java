@@ -186,11 +186,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Tries to connect to  the database 
         try
         {
-            // Load the MySQL JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
             
             // Uses URL, USERNAME and PASSWORRD  to connect to database
-            connection = (com.mycompany.assignment1.Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
             // Confirmation message when able to connected to database
             System.out.println("Connection established");
@@ -198,8 +196,6 @@ public class Server extends JFrame implements ActionListener, Runnable {
         } catch (SQLException e) {
             // Confirmation message when unable to connect to database
             System.out.println("Could not connect to the database");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             // closes connection
@@ -490,7 +486,6 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             if (!dronesActive) {
                 outputLog("Shut Down Commencing.");
-                connection.close;
                 System.exit(0);
             }
         }
@@ -659,6 +654,10 @@ class Connection extends Thread {
     }
 
     PreparedStatement prepareStatement(String sql) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void close() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
