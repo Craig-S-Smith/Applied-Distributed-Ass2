@@ -186,25 +186,19 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Tries to connect to  the database 
         try
         {
-            
             // Uses URL, USERNAME and PASSWORRD  to connect to database
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
             // Confirmation message when able to connected to database
             System.out.println("Connection established");
+            
+            // closes connection
+            connection.close();
         
         } catch (SQLException e) {
             // Confirmation message when unable to connect to database
             System.out.println("Could not connect to the database");
         }
-
-        try {
-            // closes connection
-            connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
     }
     
     @Override
@@ -220,7 +214,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
                     deleteFire();
                 } catch (SQLException ex) {
                     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
                 break;
 
@@ -260,6 +256,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
             }
             
         }   catch(IOException e) {System.out.println("Listen Socket : " + e.getMessage());}
+    }
+    
+    public ArrayList<FireDetails>getAllFire() {
+        
     }
     
     static boolean ifRecall() {
@@ -305,6 +305,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
 
             // Tries to add new fire details to table
             try {
+                
+            // Uses URL, USERNAME and PASSWORRD  to connect to database
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
             // Sql for inserting data into table
             String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos) VALUES ( ?, ?, ?, ?, ?);";
@@ -333,12 +336,17 @@ public class Server extends JFrame implements ActionListener, Runnable {
             }
         }
     
-    public void deleteFire() throws SQLException {
+    public void deleteFire() throws SQLException, ClassNotFoundException {
         // Triggered by Delete Fire Button
         // intId is the id that'll be entered
         int intId = -1;
+        
         // Sql for inserting data into table
         String sql = "UPDATE fire SET isActive = fales WHERE id = ?";
+        
+        // Uses URL, USERNAME and PASSWORRD  to connect to database
+        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            
         // Statement object
         PreparedStatement preStmt = connection.prepareStatement(sql);
         
