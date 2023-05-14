@@ -260,8 +260,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     public ArrayList<FireDetails>getAllFire() throws SQLException {
+        // Sql statement
+        String sql = "SELECT * FROM fire";
         
-        String sql = "SELECT * FROM DRONE";
         PreparedStatement preStmt = connection.prepareStatement(sql);
         
         ResultSet rs = preStmt.executeQuery();
