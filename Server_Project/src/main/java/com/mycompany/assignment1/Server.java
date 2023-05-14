@@ -96,7 +96,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-        // Initialise connection
+        // Initialise connection for sql database
         private static Connection connection;
         
         // Creates string for connection
@@ -242,7 +242,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             // Constantly on loop, checks for connections and sends connections to new thread
             while(true) {
                 Socket clientSocket = listenSocket.accept();
-                Connection c = new Connection(clientSocket);
+                Connection c = new Connection(clientSocket) {};
             }
             
         }   catch(IOException e) {System.out.println("Listen Socket : " + e.getMessage());}
