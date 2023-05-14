@@ -238,8 +238,6 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-  
-    
     public static void main(String[] args) {
         
         // Starts thread to update map and GUI because that's how it works apparently
@@ -284,6 +282,30 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
         
         return fires;
+    }
+    
+    public ArrayList<DroneDetails>getAllDrones() throws SQLException {
+        // Sql statement
+        String sql = "SELECT * FROM drone";
+        
+        PreparedStatement preStmt = connection.prepareStatement(sql);
+        
+        ResultSet rs = preStmt.executeQuery();
+        
+        while(rs.next()) {
+            int droneId = rs.getInt("id");
+            String name = rs.getString("name");
+            int xPos = rs.getInt("xpos");
+            int yPos = rs.getInt("ypos");
+            
+            DroneDetails drone = new DroneDetails(droneId,name,xPos,yPos,true);
+            
+            drones.add(drone);
+            
+            System.out.println(drone);
+        }
+        
+        return drones;
     }
 
     public ArrayList<FiretruckDetails>getAllTruck() throws SQLException {
