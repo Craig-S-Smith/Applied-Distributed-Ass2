@@ -463,7 +463,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             int rows = preStmt.executeUpdate();
             
             // Confirmation statement
-            System.out.println(rows + " row(s) deleted");
+            System.out.println(rows + " fire deleted");
             
             // closes connection
             connection.close();
