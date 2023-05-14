@@ -60,7 +60,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         private ArrayList<FireDetails> fires;
         private ArrayList<FiretruckDetails> trucks;
 
-        public MapPanel(ArrayList<DroneDetails> drones, ArrayList<FireDetails> fires) {
+        public MapPanel(ArrayList<DroneDetails> drones, ArrayList<FireDetails> fires, ArrayList<FiretruckDetails> trucks) {
             this.drones = drones;
             this.fires = fires;
         }
@@ -98,6 +98,19 @@ public class Server extends JFrame implements ActionListener, Runnable {
                 g.setColor(Color.BLACK);
                 g.drawString("Fire " + p.getId() + " (" + severity + ")", x - 30, y - 5);
             }
+            
+            // Draw fires as red circles with fire id and severity
+            for (FireDetails p : fires) {
+                // Converts coordinates for use on 400 by 400 grid
+                int x = (100 - p.getX_pos()) * 2;
+                int y = (100 - p.getY_pos()) * 2;
+                int severity = p.getSeverity();
+                int size = 10;
+                g.setColor(Color.YELLOW);
+                g.fillOval(x - size/2, y - size/2, size, size);
+                g.setColor(Color.BLACK);
+                g.drawString("Fire " + p.getId() + " (" + severity + ")", x - 30, y - 5);
+            }
         }
     }
     
@@ -106,8 +119,8 @@ public class Server extends JFrame implements ActionListener, Runnable {
         
         // Creates string for connection
         private static String URL = "jdbc:mysql://localhost:3306/ibdms_server";
-        private static final String USERNAME = "user";
-        private static final String PASSWORD = "pass";
+        private static final String USERNAME = "root";
+        private static final String PASSWORD = "root";
     
     Server() {
         // Sets settings for java swing GUI Frame
@@ -157,7 +170,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         outputPanel.add(scrollPane);
         
          // Map Panel
-        mapPanel = new MapPanel(drones, fires);
+        mapPanel = new MapPanel(drones, fires, trucks);
         mapPanel.setPreferredSize(new Dimension(400, 400));
         
         // Outer Map Panel with text
@@ -635,7 +648,7 @@ class DroneConnection extends Thread {
             this.start();
 	} catch(IOException e) {System.out.println("Connection:"+e.getMessage());}
     }
-    
+     
     @Override
     public void run() {
         try {
