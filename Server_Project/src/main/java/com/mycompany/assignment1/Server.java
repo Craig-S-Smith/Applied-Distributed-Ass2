@@ -265,16 +265,16 @@ public class Server extends JFrame implements ActionListener, Runnable {
             String sql = "INSERT INTO drone (id,name,xpos,ypos) VALUES ( ?, ?, ?, ?);";
             
             // Statement object
-            PreparedStatement insertStmt = connection.prepareStatement(sql);
+            PreparedStatement preStmt = connection.prepareStatement(sql);
             
             // Set the values of the object
-            insertStmt.setInt(1, tempDrone.getId());
-            insertStmt.setString(2, tempDrone.getName());
-            insertStmt.setInt(3, tempDrone.getY_pos());
-            insertStmt.setInt(4, tempDrone.getX_pos());
+            preStmt.setInt(1, tempDrone.getId());
+            preStmt.setString(2, tempDrone.getName());
+            preStmt.setInt(3, tempDrone.getY_pos());
+            preStmt.setInt(4, tempDrone.getX_pos());
             
             // Executes the sql
-            int rows = insertStmt.executeUpdate();
+            int rows = preStmt.executeUpdate();
             
             // Confirmation statement
             System.out.println(rows + " row(s) inserted");
@@ -296,17 +296,17 @@ public class Server extends JFrame implements ActionListener, Runnable {
             String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos) VALUES ( ?, ?, ?, ?, ?);";
             
             // Statement object
-            PreparedStatement insertStmt = connection.prepareStatement(sql);
+            PreparedStatement preStmt = connection.prepareStatement(sql);
             
             // Set the values of the object
-            insertStmt.setInt(1, tempFire.getId());
-            insertStmt.setBoolean(2, tempFire.getActivity());
-            insertStmt.setInt(3, tempFire.getSeverity());
-            insertStmt.setInt(4, tempFire.getX_pos());
-            insertStmt.setInt(5, tempFire.getY_pos());
+            preStmt.setInt(1, tempFire.getId());
+            preStmt.setBoolean(2, tempFire.getActivity());
+            preStmt.setInt(3, tempFire.getSeverity());
+            preStmt.setInt(4, tempFire.getX_pos());
+            preStmt.setInt(5, tempFire.getY_pos());
             
             // Executes the sql
-            int rows = insertStmt.executeUpdate();
+            int rows = preStmt.executeUpdate();
             
             // Confirmation statement
             System.out.println(rows + " row(s) inserted");
@@ -326,7 +326,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Sql for inserting data into table
         String sql = "UPDATE fire SET isActive = fales WHERE id = ?";
         // Statement object
-        PreparedStatement delStmt = connection.prepareStatement(sql);
+        PreparedStatement preStmt = connection.prepareStatement(sql);
         
         while (true) {
             // Prompts user to enter drone id
@@ -347,10 +347,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
         try {
             
             // Set the values of the object
-            delStmt.setInt(1, intId);
+            preStmt.setInt(1, intId);
             
             // Executes sql
-            int rows = delStmt.executeUpdate();
+            int rows = preStmt.executeUpdate();
             
             // Confirmation statement
             System.out.println(rows + " row(s) inserted");
