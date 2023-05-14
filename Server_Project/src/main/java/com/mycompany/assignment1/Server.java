@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -258,8 +259,28 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }   catch(IOException e) {System.out.println("Listen Socket : " + e.getMessage());}
     }
     
-    public ArrayList<FireDetails>getAllFire() {
+    public ArrayList<FireDetails>getAllFire() throws SQLException {
         
+        String sql = "SELECT * FROM DRONE";
+        PreparedStatement preStmt = connection.prepareStatement(sql);
+        
+        ResultSet rs = preStmt.executeQuery();
+        
+        while(rs.next()) {
+            int fireId = rs.getInt("id");
+            boolean activity = rs.getBoolean("isActive");
+            int intensity = rs.getInt("intensity");
+            int xPos = rs.getInt("xpos");
+            int yPos = rs.getInt("ypos");
+            
+            FireDetails fire = new FireDetails(fireId,activity,xPos,yPos,0,intensity);
+            
+            fires.add(fire);
+            
+            System.out.println(fire);
+        }
+        
+        return fires;
     }
     
     static boolean ifRecall() {
@@ -342,7 +363,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         int intId = -1;
         
         // Sql for inserting data into table
-        String sql = "UPDATE fire SET isActive = fales WHERE id = ?";
+        String sql = "UPDATE fire SET isActive = false WHERE id = ?";
         
         // Uses URL, USERNAME and PASSWORRD  to connect to database
         connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
