@@ -8,17 +8,19 @@ package com.mycompany.assignment1;
 import java.awt.*;
 import java.net.*;
 import java.io.*;
+import java.sql.PreparedStatement;
 import java.sql.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.sql.*;
+
 
 /**
  *
@@ -97,7 +99,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
         // Initialise connection for sql database
-        private static Connection connect;
+        private static Connection connection;
         
         // Creates string for connection
         private static String URL = "jdbc:mysql://localhost:3306/ibdms_server";
@@ -188,7 +190,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             Class.forName("com.mysql.jdbc.Driver");
             
             // Uses URL, USERNAME and PASSWORRD  to connect to database
-            connect = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = (com.mycompany.assignment1.Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
             // Confirmation message when able to connected to database
             System.out.println("Connection established");
@@ -201,7 +203,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
         finally{
             // closes connection
-            connect.close();
+            connection.close();
         }
     }
     
@@ -230,7 +232,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-        
+  
     
     public static void main(String[] args) {
         
