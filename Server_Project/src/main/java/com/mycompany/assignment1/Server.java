@@ -60,9 +60,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
         private ArrayList<FireDetails> fires;
         private ArrayList<FiretruckDetails> trucks;
 
-        public MapPanel(ArrayList<DroneDetails> drones, ArrayList<FireDetails> fires, ArrayList<FiretruckDetails> trucks) {
-            this.drones = drones;
-            this.fires = fires;
+        public MapPanel(ArrayList<DroneDetails> drones, ArrayList<FireDetails> fires, ArrayList<FiretruckDetails> trucks) throws SQLException {
+            this.drones = getAllDrones();
+            this.trucks = getAllTruck();
+            this.fires = getAllFire();
         }
 
         @Override
@@ -100,16 +101,16 @@ public class Server extends JFrame implements ActionListener, Runnable {
             }
             
             // Draw fires as red circles with fire id and severity
-            for (FireDetails p : fires) {
+            for (FiretruckDetails p : trucks) {
                 // Converts coordinates for use on 400 by 400 grid
-                int x = (100 - p.getX_pos()) * 2;
+                int x = (100 - FireDetails.p.getX_pos()) * 2;
                 int y = (100 - p.getY_pos()) * 2;
-                int severity = p.getSeverity();
+                int fireId = p.getFireId();
                 int size = 10;
                 g.setColor(Color.YELLOW);
                 g.fillOval(x - size/2, y - size/2, size, size);
                 g.setColor(Color.BLACK);
-                g.drawString("Fire " + p.getId() + " (" + severity + ")", x - 30, y - 5);
+                g.drawString("Fire " + p.getId() + " (" + fireId + ")", x - 30, y - 5);
             }
         }
     }
@@ -122,7 +123,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         private static final String USERNAME = "root";
         private static final String PASSWORD = "root";
     
-    Server() {
+    Server() throws SQLException {
         // Sets settings for java swing GUI Frame
         super("Server GUI");
         
@@ -251,7 +252,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         
         // Starts thread to update map and GUI because that's how it works apparently
         Server obj = new Server();
