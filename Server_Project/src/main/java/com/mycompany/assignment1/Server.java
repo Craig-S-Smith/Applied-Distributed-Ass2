@@ -97,7 +97,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
         // Initialise connection for sql database
-        private static Connection connection;
+        private static Connection connect;
         
         // Creates string for connection
         private static String URL = "jdbc:mysql://localhost:3306/ibdms_server";
@@ -184,8 +184,11 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Tries to connect to  the database 
         try
         {
+            // Load the MySQL JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+            
             // Uses URL, USERNAME and PASSWORRD  to connect to database
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connect = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
             // Confirmation message when able to connected to database
             System.out.println("Connection established");
@@ -193,10 +196,12 @@ public class Server extends JFrame implements ActionListener, Runnable {
         } catch (SQLException e) {
             // Confirmation message when unable to connect to database
             System.out.println("Could not connect to the database");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             // closes connection
-            connection.close();
+            connect.close();
         }
     }
     
