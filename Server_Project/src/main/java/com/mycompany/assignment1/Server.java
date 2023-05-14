@@ -35,6 +35,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
     // ArrayLists for Drone and Fire Objects
     static ArrayList<DroneDetails> drones = new ArrayList<>();
     static ArrayList<FireDetails> fires = new ArrayList<>();
+    static ArrayList<FiretruckDetails> trucks = new ArrayList<>();
     
     // GUI Setup, all elements of GUI declared
     private JLabel titleText = new JLabel("Drone Server");
@@ -57,6 +58,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
 
         private ArrayList<DroneDetails> drones;
         private ArrayList<FireDetails> fires;
+        private ArrayList<FiretruckDetails> trucks;
 
         public MapPanel(ArrayList<DroneDetails> drones, ArrayList<FireDetails> fires) {
             this.drones = drones;
@@ -282,6 +284,29 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
         
         return fires;
+    }
+
+    public ArrayList<FiretruckDetails>getAllTruck() throws SQLException {
+        // Sql statement
+        String sql = "SELECT * FROM firetrucks";
+        
+        PreparedStatement preStmt = connection.prepareStatement(sql);
+        
+        ResultSet rs = preStmt.executeQuery();
+        
+        while(rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            int fireId = rs.getInt("designatedFireId");
+            
+            FiretruckDetails truck = new FiretruckDetails(id,name,fireId);
+            
+            trucks.add(truck);
+            
+            System.out.println(truck);
+        }
+        
+        return trucks;
     }
     
     static boolean ifRecall() {
