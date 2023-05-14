@@ -266,7 +266,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             try {
             
             // Uses URL, USERNAME and PASSWORRD  to connect to database
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = (com.mycompany.assignment1.Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
                 
             // Sql for inserting data into table
             String sql = "INSERT INTO drone (id,name,xpos,ypos) VALUES ( ?, ?, ?, ?);";
@@ -656,5 +656,9 @@ class Connection extends Thread {
         } catch(IOException e) {System.out.println("readline:"+e.getMessage());
 	} catch(ClassNotFoundException ex){ ex.printStackTrace();
 	} finally{ try {clientSocket.close();}catch (IOException e){/*close failed*/}}
+    }
+
+    PreparedStatement prepareStatement(String sql) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
