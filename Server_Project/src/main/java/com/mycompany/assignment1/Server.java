@@ -245,7 +245,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             // Constantly on loop, checks for connections and sends connections to new thread
             while(true) {
                 Socket clientSocket = listenSocket.accept();
-                Connection c = new Connection(clientSocket) {};
+                DroneConnection c = new DroneConnection(clientSocket) {};
             }
             
         }   catch(IOException e) {System.out.println("Listen Socket : " + e.getMessage());}
@@ -262,7 +262,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             try {
             
             // Uses URL, USERNAME and PASSWORRD  to connect to database
-            connection = (com.mycompany.assignment1.Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
                 
             // Sql for inserting data into table
             String sql = "INSERT INTO drone (id,name,xpos,ypos) VALUES ( ?, ?, ?, ?);";
@@ -515,13 +515,13 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
 }
 
-class Connection extends Thread {
+class DroneConnection extends Thread {
     // Sets up input and output streams for socket
     ObjectInputStream in;
     ObjectOutputStream out;
     Socket clientSocket;
     
-    public Connection (Socket aClientSocket) {
+    public DroneConnection (Socket aClientSocket) {
         
         // Assigns streams to the socket and starts the thread run()
         try {
