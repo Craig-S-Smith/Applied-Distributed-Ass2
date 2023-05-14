@@ -197,10 +197,14 @@ public class Server extends JFrame implements ActionListener, Runnable {
             // Confirmation message when unable to connect to database
             System.out.println("Could not connect to the database");
         }
-        finally{
+
+        try {
             // closes connection
             connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     
     @Override
@@ -211,8 +215,15 @@ public class Server extends JFrame implements ActionListener, Runnable {
         String actionString=e.getActionCommand();
         switch(actionString) {
             case "Delete Fire":
-                deleteFire();
+            {
+                try {
+                    deleteFire();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
                 break;
+
                 
             case "Recall Drones":
                 recallDrones();
@@ -322,7 +333,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             }
         }
     
-    public void deleteFire() {
+    public void deleteFire() throws SQLException {
         // Triggered by Delete Fire Button
         // intId is the id that'll be entered
         int intId = -1;
