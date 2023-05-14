@@ -356,13 +356,33 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     static void addDrone(DroneDetails tempDrone) {
-        
-            // Tries to add new drone details to table
-            try {
-            
+    
+            // Assumes drone is new until found otherwise
+            boolean newDrone = true;
+            boolean wasActive = false;
+        try {
             // Uses URL, USERNAME and PASSWORRD  to connect to database
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-                
+            
+            for (DroneDetails p : drones) {
+                if (p.getId() == tempDrone.getId()) {
+                    String sql = "UPDATE drone SET xpos = ?, ypos = ? WHERE id = ?";
+                    
+                    PreparedStatement preStmt = connection.prepareStatement(sql);
+                    
+                    preStmt.setInt(1, tempDrone.getX_pos());
+                    preStmt.setInt(2, tempDrone.getY_pos());
+                    preStmt.setInt(3, tempDrone.getId());
+                    
+                    preStmt.executeUpdate();
+                    
+                    outputLog("Drone " + p.getId() + " moved to coordinates: " + p.getX_pos() + ", " + p.getY_pos() + ".");
+                    
+                    connection.close();
+                    }
+            }
+            
+            // Tries to add new drone details to table    
             // Sql for inserting data into table
             String sql = "INSERT INTO drone (id,name,xpos,ypos) VALUES ( ?, ?, ?, ?);";
             
@@ -376,14 +396,14 @@ public class Server extends JFrame implements ActionListener, Runnable {
             preStmt.setInt(4, tempDrone.getX_pos());
             
             // Executes the sql
-            int rows = preStmt.executeUpdate();
+            preStmt.executeUpdate();
             
             // Confirmation statement
-            System.out.println(rows + " row(s) inserted");
+            System.out.println("Drone Added");
             
             // closes connection
             connection.close();
-            
+
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -405,7 +425,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             // Set the values of the object
             preStmt.setInt(1, tempFire.getId());
-            preStmt.setBoolean(2, tempFire.getActivity());
+            preStmt.setBoolean(2, true);
             preStmt.setInt(3, tempFire.getSeverity());
             preStmt.setInt(4, tempFire.getX_pos());
             preStmt.setInt(5, tempFire.getY_pos());
