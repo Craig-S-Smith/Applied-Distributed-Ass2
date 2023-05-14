@@ -263,10 +263,13 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Sql statement
         String sql = "SELECT * FROM fire";
         
+        // Object statement
         PreparedStatement preStmt = connection.prepareStatement(sql);
         
+        // 
         ResultSet rs = preStmt.executeQuery();
         
+        // Will keep running until it goes through all records
         while(rs.next()) {
             int fireId = rs.getInt("id");
             boolean activity = rs.getBoolean("isActive");
@@ -274,13 +277,16 @@ public class Server extends JFrame implements ActionListener, Runnable {
             int xPos = rs.getInt("xpos");
             int yPos = rs.getInt("ypos");
             
+            // Makes records into objects
             FireDetails fire = new FireDetails(fireId,activity,xPos,yPos,0,intensity);
             
+            // Adds object into array list
             fires.add(fire);
             
+            // Confirmation output
             System.out.println(fire);
         }
-        
+        // Returns array
         return fires;
     }
     
@@ -288,23 +294,28 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Sql statement
         String sql = "SELECT * FROM drone";
         
+        // Object statement
         PreparedStatement preStmt = connection.prepareStatement(sql);
         
         ResultSet rs = preStmt.executeQuery();
         
+        // Will keep running until it goes through all records
         while(rs.next()) {
             int droneId = rs.getInt("id");
             String name = rs.getString("name");
             int xPos = rs.getInt("xpos");
             int yPos = rs.getInt("ypos");
             
+            // Makes records into objects
             DroneDetails drone = new DroneDetails(droneId,name,xPos,yPos,true);
             
+            // Adds object into array list
             drones.add(drone);
             
+            // Confirmation output
             System.out.println(drone);
         }
-        
+        // Returns array
         return drones;
     }
 
@@ -312,22 +323,27 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Sql statement
         String sql = "SELECT * FROM firetrucks";
         
+        // Object statement
         PreparedStatement preStmt = connection.prepareStatement(sql);
         
         ResultSet rs = preStmt.executeQuery();
         
+        // Will keep running until it goes through all records
         while(rs.next()) {
             int id = rs.getInt("id");
             String name = rs.getString("name");
             int fireId = rs.getInt("designatedFireId");
             
+            // Makes records into objects
             FiretruckDetails truck = new FiretruckDetails(id,name,fireId);
             
+            // Adds object into array list
             trucks.add(truck);
             
+            // Confirmation output
             System.out.println(truck);
         }
-        
+        // Returns array
         return trucks;
     }
     
