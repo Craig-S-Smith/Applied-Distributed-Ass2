@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(com.mycompany.webserver.service.DroneFacadeREST.class);
         resources.add(com.mycompany.webserver.service.FireFacadeREST.class);
         resources.add(com.mycompany.webserver.service.FiretrucksFacadeREST.class);
+        resources.add(org.eclipse.persistence.jaxb.rs.MOXyJsonProvider.class);
     }
     
 }

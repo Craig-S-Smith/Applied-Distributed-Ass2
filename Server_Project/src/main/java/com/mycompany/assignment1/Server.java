@@ -61,9 +61,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
         private ArrayList<FiretruckDetails> trucks;
 
         public MapPanel(ArrayList<DroneDetails> drones, ArrayList<FireDetails> fires, ArrayList<FiretruckDetails> trucks) throws SQLException {
-            this.drones = getAllDrones();
-            this.trucks = getAllTruck();
-            this.fires = getAllFire();
+            this.drones = drones;
+            this.trucks = trucks;
+            this.fires = fires;
         }
 
         @Override
@@ -100,18 +100,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
                 g.drawString("Fire " + p.getId() + " (" + severity + ")", x - 30, y - 5);
             }
             
-            // Draw fires as red circles with fire id and severity
-            for (FiretruckDetails p : trucks) {
-                // Converts coordinates for use on 400 by 400 grid
-                int x = (100 - FireDetails.p.getX_pos()) * 2;
-                int y = (100 - p.getY_pos()) * 2;
-                int fireId = p.getFireId();
-                int size = 10;
-                g.setColor(Color.YELLOW);
-                g.fillOval(x - size/2, y - size/2, size, size);
-                g.setColor(Color.BLACK);
-                g.drawString("Fire " + p.getId() + " (" + fireId + ")", x - 30, y - 5);
-            }
+
         }
     }
     
@@ -120,8 +109,8 @@ public class Server extends JFrame implements ActionListener, Runnable {
         
         // Creates string for connection
         private static String URL = "jdbc:mysql://localhost:3306/ibdms_server";
-        private static final String USERNAME = "root";
-        private static final String PASSWORD = "root";
+        private static final String USERNAME = "user";
+        private static final String PASSWORD = "pass";
     
     Server() throws SQLException {
         // Sets settings for java swing GUI Frame
@@ -474,7 +463,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             int rows = preStmt.executeUpdate();
             
             // Confirmation statement
-            System.out.println(rows + " row(s) inserted");
+            System.out.println(rows + " row(s) deleted");
             
             // closes connection
             connection.close();
