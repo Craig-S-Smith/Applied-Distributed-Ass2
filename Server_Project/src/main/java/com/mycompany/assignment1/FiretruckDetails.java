@@ -50,13 +50,12 @@ public class FiretruckDetails {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("FiretruckDetails{id=").append(id);
-        sb.append(", truckName=").append(truckName);
-        sb.append(", fireId=").append(fireId);
-        sb.append('}');
-        return sb.toString();
+        return "Firertruck ID=" + id + "\n" + 
+                "Truck Name=" + truckName + "\n" + 
+                "Designated Fire ID=" + fireId + "\n";
     }
+
+    
 
     
     
