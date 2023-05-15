@@ -32,7 +32,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
     // If recall has been called
     static boolean recallStatus = false;
     
-    // ArrayLists for Drone and Fire Objects
+    // ArrayLists for Drone , Fire Objects and trucks
     static ArrayList<DroneDetails> drones = new ArrayList<>();
     static ArrayList<FireDetails> fires = new ArrayList<>();
     static ArrayList<FiretruckDetails> trucks = new ArrayList<>();
@@ -262,9 +262,12 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }   catch(IOException e) {System.out.println("Listen Socket : " + e.getMessage());}
     }
     
-    public ArrayList<FireDetails>getAllFire() throws SQLException {
+    public  ArrayList<FireDetails>getAllFire() throws SQLException {
         // Sql statement
         String sql = "SELECT * FROM fire";
+        
+        // Uses URL, USERNAME and PASSWORRD  to connect to database
+        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         
         // Object statement
         PreparedStatement preStmt = connection.prepareStatement(sql);
@@ -297,6 +300,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
         // Sql statement
         String sql = "SELECT * FROM drone";
         
+        // Uses URL, USERNAME and PASSWORRD  to connect to database
+        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        
         // Object statement
         PreparedStatement preStmt = connection.prepareStatement(sql);
         
@@ -325,6 +331,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
     public ArrayList<FiretruckDetails>getAllTruck() throws SQLException {
         // Sql statement
         String sql = "SELECT * FROM firetrucks";
+        
+        // Uses URL, USERNAME and PASSWORRD  to connect to database
+        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         
         // Object statement
         PreparedStatement preStmt = connection.prepareStatement(sql);
