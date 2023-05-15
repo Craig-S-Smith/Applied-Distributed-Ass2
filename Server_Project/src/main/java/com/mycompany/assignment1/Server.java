@@ -102,13 +102,13 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             for (int p = 0; p < trucks.size(); p++) {
             int x = (100 - fires.get(p).getX_pos()) * 2;
-            int y = (100 - fires.get(p).getY_pos()) * 2;
+            int y = (100 - fires.get(p).getY_pos()) * 2 - 12;
             String name = trucks.get(p).getTruckName();
-            int size = 10;
+            int size = 5;
             g.setColor(Color.YELLOW);
             g.fillOval(x - size/2, y - size/2, size, size);
             g.setColor(Color.BLACK);
-            g.drawString("Truck " + trucks.get(p).getId() + " - " + name, x - 30, y - 5);
+            g.drawString("Firetruck " + trucks.get(p).getId(), x - 30, y - 5);
 }
         }
     }
