@@ -490,6 +490,9 @@ public class Server extends JFrame implements ActionListener, Runnable {
             FireDetails fire = new FireDetails(fireId,true,tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
             fires.add(fire);
             
+            // Confirmation log
+            outputLog("New Fire Spotted at " + fire.getX_pos() + ", " + fire.getY_pos() + " with severity " + fire.getSeverity() + ".");
+            
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
