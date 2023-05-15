@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.sql.*;
 
 
 /**
@@ -439,6 +438,8 @@ public class Server extends JFrame implements ActionListener, Runnable {
             // Adds drone to arraylist
             DroneDetails drone = new DroneDetails(tempDrone.getId(), tempDrone.getName(), tempDrone.getX_pos(), tempDrone.getY_pos(), true);
             drones.add(drone);
+            
+            outputLog("Drone " + drone.getId() + " registered.");
             
             }
             } catch (SQLException ex) {
