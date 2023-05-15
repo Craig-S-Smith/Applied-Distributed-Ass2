@@ -435,6 +435,11 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             // closes connection
             connection.close();   
+            
+            // Adds drone to arraylist
+            DroneDetails drone = new DroneDetails(tempDrone.getId(), tempDrone.getName(), tempDrone.getX_pos(), tempDrone.getY_pos(), true);
+            drones.add(drone);
+            
             }
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -442,7 +447,17 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     static void addFire(FireDetails tempFire) {
-
+            
+            int max = 0;
+            
+            for (FireDetails p : fires) {
+                if (p.getId() > max) {
+                    max = p.getId();
+                }
+            }
+            
+            int fireId = max + 1;
+            
             // Tries to add new fire details to table
             try {
                 
@@ -456,7 +471,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             PreparedStatement preStmt = connection.prepareStatement(sql);
             
             // Set the values of the object
-            preStmt.setInt(1, tempFire.getId());
+            preStmt.setInt(1, fireId);
             preStmt.setBoolean(2, true);
             preStmt.setInt(3, tempFire.getSeverity());
             preStmt.setInt(4, tempFire.getX_pos());
@@ -470,6 +485,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
             
             // closes connection
             connection.close();
+            
+            // Adds drone to arraylist
+            FireDetails fire = new FireDetails(fireId,true,tempFire.getX_pos(), tempFire.getY_pos(), tempFire.getDroneId(), tempFire.getSeverity());
+            fires.add(fire);
             
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
