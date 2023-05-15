@@ -603,35 +603,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
     }
     
     public void shutDown() {
-        /*
-        Sets recall status to true
-        drones active is set to false before each loop
-        Checks each object of the ArrayList to see if a drone is still active
-        If one is, dronesActive is set to true
+
+        outputLog("Shut Down Commencing.");
         
-        If dronesActive is false that means there's no drones active
-        The program saves that data (saveData()) and exits
-        
-        If there is a drone still active it will loop until no drones are active
-        */
-        recallStatus = true;
-        boolean dronesActive;
-        
-        outputLog("Recall Intiated.");
-        
-        while (true) {
-            dronesActive = false;
-            for (DroneDetails p : drones) {
-                if (p.getActive()) {
-                    dronesActive = true;
-                }
-            }
-            
-            if (!dronesActive) {
-                outputLog("Shut Down Commencing.");
-                System.exit(0);
-            }
-        }
+        System.exit(0);
     }
     
     public static void outputLog(String message) {

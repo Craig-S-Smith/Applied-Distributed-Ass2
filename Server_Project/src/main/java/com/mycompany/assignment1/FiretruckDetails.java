@@ -50,9 +50,9 @@ public class FiretruckDetails {
 
     @Override
     public String toString() {
-        return "Firertruck ID=" + id + "\n" + 
-                "Truck Name=" + truckName + "\n" + 
-                "Designated Fire ID=" + fireId + "\n";
+        return "Firertruck ID = " + id + "\n" + 
+                "Truck Name = " + truckName + "\n" + 
+                "Designated Fire ID = " + fireId + "\n";
     }
 
     
