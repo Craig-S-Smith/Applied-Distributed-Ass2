@@ -33,7 +33,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
     static boolean recallStatus = false;
     
     // ArrayLists for Drone , Fire Objects and trucks
-    static ArrayList<DroneDetails> drones = new ArrayList<>();
+    public static ArrayList<DroneDetails> drones = new ArrayList<>();
     static ArrayList<FireDetails> fires = new ArrayList<>();
     static ArrayList<FiretruckDetails> trucks = new ArrayList<>();
     
@@ -241,28 +241,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
         }
     }
     
-    public static void main(String[] args) throws SQLException {
-        
-        // Starts thread to update map and GUI because that's how it works apparently
-        Server obj = new Server();
-        Thread thread = new Thread(obj);
-        thread.start();
-        
-        // Sets up connection listener with port 8888
-        try {
-            int serverPort = 8888;
-            ServerSocket listenSocket = new ServerSocket(serverPort);
-            
-            // Constantly on loop, checks for connections and sends connections to new thread
-            while(true) {
-                Socket clientSocket = listenSocket.accept();
-                DroneConnection c = new DroneConnection(clientSocket) {};
-            }
-            
-        }   catch(IOException e) {System.out.println("Listen Socket : " + e.getMessage());}
-    }
-    
-    public  ArrayList<FireDetails>getAllFire() throws SQLException {
+    public static void getAllFires() throws SQLException {
         // Sql statement
         String sql = "SELECT * FROM fire";
         
@@ -293,10 +272,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
             System.out.println(fire);
         }
         // Returns array
-        return fires;
+        //return fires;
     }
     
-    public ArrayList<DroneDetails>getAllDrones() throws SQLException {
+    public static void getAllDrones() throws SQLException {
         // Sql statement
         String sql = "SELECT * FROM drone";
         
@@ -325,10 +304,10 @@ public class Server extends JFrame implements ActionListener, Runnable {
             System.out.println(drone);
         }
         // Returns array
-        return drones;
+        //return drones;
     }
 
-    public ArrayList<FiretruckDetails>getAllTruck() throws SQLException {
+    public static void getAllTrucks() throws SQLException {
         // Sql statement
         String sql = "SELECT * FROM firetrucks";
         
@@ -356,8 +335,36 @@ public class Server extends JFrame implements ActionListener, Runnable {
             System.out.println(truck);
         }
         // Returns array
-        return trucks;
+        //return trucks;
     }
+    
+    public static void main(String[] args) throws SQLException {
+        
+        // Adds database records into arraylists
+        getAllDrones();
+        getAllFires();
+        getAllTrucks();
+        
+        // Starts thread to update map and GUI because that's how it works apparently
+        Server obj = new Server();
+        Thread thread = new Thread(obj);
+        thread.start();
+        
+        // Sets up connection listener with port 8888
+        try {
+            int serverPort = 8888;
+            ServerSocket listenSocket = new ServerSocket(serverPort);
+            
+            // Constantly on loop, checks for connections and sends connections to new thread
+            while(true) {
+                Socket clientSocket = listenSocket.accept();
+                DroneConnection c = new DroneConnection(clientSocket) {};
+            }
+            
+        }   catch(IOException e) {System.out.println("Listen Socket : " + e.getMessage());}
+    }
+    
+    
     
     static boolean ifRecall() {
         // Returns if the recall status is true
