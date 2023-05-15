@@ -100,7 +100,16 @@ public class Server extends JFrame implements ActionListener, Runnable {
                 g.drawString("Fire " + p.getId() + " (" + severity + ")", x - 30, y - 5);
             }
             
-
+            for (int p = 0; p < trucks.size(); p++) {
+            int x = (100 - fires.get(p).getX_pos()) * 2;
+            int y = (100 - fires.get(p).getY_pos()) * 2;
+            String name = trucks.get(p).getTruckName();
+            int size = 10;
+            g.setColor(Color.YELLOW);
+            g.fillOval(x - size/2, y - size/2, size, size);
+            g.setColor(Color.BLACK);
+            g.drawString("Truck " + trucks.get(p).getId() + " - " + name, x - 30, y - 5);
+}
         }
     }
     
@@ -375,7 +384,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
     
             // Assumes drone is new until found otherwise
             boolean newDrone = true;
-            boolean wasActive = false;
+            
         try {
             // Uses URL, USERNAME and PASSWORRD  to connect to database
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -392,12 +401,19 @@ public class Server extends JFrame implements ActionListener, Runnable {
                     
                     preStmt.executeUpdate();
                     
+                    p.setX_pos(tempDrone.getX_pos());
+                    p.setY_pos(tempDrone.getY_pos());
+                    
                     outputLog("Drone " + p.getId() + " moved to coordinates: " + p.getX_pos() + ", " + p.getY_pos() + ".");
                     
                     connection.close();
+                    
+                    newDrone = false;
+                    
+                    
                     }
             }
-            
+            if (newDrone == true){
             // Tries to add new drone details to table    
             // Sql for inserting data into table
             String sql = "INSERT INTO drone (id,name,xpos,ypos) VALUES ( ?, ?, ?, ?);";
@@ -418,8 +434,8 @@ public class Server extends JFrame implements ActionListener, Runnable {
             System.out.println("Drone Added");
             
             // closes connection
-            connection.close();
-
+            connection.close();   
+            }
             } catch (SQLException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -434,7 +450,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
             // Sql for inserting data into table
-            String sql = "INSERT INTO fire  (id,isActtive,intensity,xpos,ypos) VALUES ( ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO fire  (id,isActive,intensity,xpos,ypos) VALUES ( ?, ?, ?, ?, ?);";
             
             // Statement object
             PreparedStatement preStmt = connection.prepareStatement(sql);
