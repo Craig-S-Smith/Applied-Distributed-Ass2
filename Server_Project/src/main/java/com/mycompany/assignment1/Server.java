@@ -450,7 +450,7 @@ public class Server extends JFrame implements ActionListener, Runnable {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
             // Sql for inserting data into table
-            String sql = "INSERT INTO fire  (id,isActive,intensity,xpos,ypos) VALUES ( ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO fire (id,isActive,intensity,xpos,ypos) VALUES ( ?, ?, ?, ?, ?);";
             
             // Statement object
             PreparedStatement preStmt = connection.prepareStatement(sql);
